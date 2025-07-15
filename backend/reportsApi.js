@@ -48,16 +48,6 @@ router.get('/', async (req, res) => {
       contratsHeaders.forEach((h, i) => { obj[h] = row[i] || ''; });
       return obj;
     });
-    const { startDate, endDate } = req.query;
-
-    const prospects = await getMergedProspects();
-    const contratsData = await getSheetData('Contrats Assurance de personnes');
-    const contratsHeaders = contratsData[0];
-    let allContrats = contratsData.slice(1).map(row => {
-      const obj = {};
-      contratsHeaders.forEach((h, i) => { obj[h] = row[i] || ''; });
-      return obj;
-    });
 
     // --- Filtrage par Date ---
     if (startDate || endDate) {
