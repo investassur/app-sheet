@@ -1,3 +1,11 @@
+const cors = require('cors');
+app.use(cors({
+  origin: [
+    'https://app-sheet-u8ao.vercel.app', // ton domaine Vercel
+    'http://localhost:3000' // pour le dev local
+  ],
+  credentials: true // si tu utilises les cookies/sessions
+}));
 // On importe les librairies nécessaires
 const express = require('express');
 const { google } = require('googleapis');
