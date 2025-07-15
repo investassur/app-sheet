@@ -20,6 +20,34 @@ const parseDate = (str) => {
 // GET /api/reports - Génère tous les rapports et KPIs, avec filtrage par date optionnel
 router.get('/', async (req, res) => {
   try {
+    console.log('--- [API] /api/reports appelée ---');
+    const { startDate, endDate } = req.query;
+    console.log('startDate:', startDate, 'endDate:', endDate);
+
+    let prospects;
+    try {
+      prospects = await getMergedProspects();
+      console.log('Nombre de prospects fusionnés:', prospects.length);
+    } catch (err) {
+      console.error('[API/reports] Erreur getMergedProspects:', err.message);
+      throw new Error('Erreur getMergedProspects: ' + err.message);
+    }
+
+    let contratsData;
+    try {
+      contratsData = await getSheetData('Contrats Assurance de personnes');
+      console.log('contratsData récupérés:', Array.isArray(contratsData) ? contratsData.length : contratsData);
+    } catch (err) {
+      console.error('[API/reports] Erreur getSheetData:', err.message);
+      throw new Error('Erreur getSheetData: ' + err.message);
+    }
+
+    const contratsHeaders = contratsData[0];
+    let allContrats = contratsData.slice(1).map(row => {
+      const obj = {};
+      contratsHeaders.forEach((h, i) => { obj[h] = row[i] || ''; });
+      return obj;
+    });
     const { startDate, endDate } = req.query;
 
     const prospects = await getMergedProspects();
