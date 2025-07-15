@@ -15,12 +15,13 @@ app.use(cors({
         'http://localhost:3000',
         'http://localhost:3002',
         'http://10.8.0.14:3000',
-        'https://app-sheet-qdya.vercel.app',
-        'https://app-sheet-u8ao.vercel.app',
-        'https://app-sheet-9h2o.vercel.app' // ← Ajoute ce domaine !
+        'https://app-sheet-qdya.vercel.app', // Frontend Vercel
+        'https://app-sheet-u8ao.vercel.app',  // Autre déploiement Vercel (si besoin)
+        'https://app-sheet-9h2o.vercel.app'  // Nouveau sous-domaine Vercel autorisé
     ],
     credentials: true
 }));
+
 // On dit à Express de pouvoir comprendre le format JSON
 app.use(express.json());
 
