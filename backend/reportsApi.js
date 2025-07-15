@@ -24,6 +24,7 @@ router.get('/', async (req, res) => {
     const { startDate, endDate } = req.query;
     console.log('startDate:', startDate, 'endDate:', endDate);
 
+    // Récupération des prospects fusionnés
     let prospects;
     try {
       prospects = await getMergedProspects();
@@ -33,6 +34,7 @@ router.get('/', async (req, res) => {
       throw new Error('Erreur getMergedProspects: ' + err.message);
     }
 
+    // Récupération des données de contrats
     let contratsData;
     try {
       contratsData = await getSheetData('Contrats Assurance de personnes');
@@ -42,12 +44,15 @@ router.get('/', async (req, res) => {
       throw new Error('Erreur getSheetData: ' + err.message);
     }
 
+    // Construction des objets contrats
     const contratsHeaders = contratsData[0];
     let allContrats = contratsData.slice(1).map(row => {
       const obj = {};
       contratsHeaders.forEach((h, i) => { obj[h] = row[i] || ''; });
       return obj;
     });
+
+    // --- Filtrage par Date ---
 
     // --- Filtrage par Date ---
     if (startDate || endDate) {
