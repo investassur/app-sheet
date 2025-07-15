@@ -1,11 +1,3 @@
-const cors = require('cors');
-app.use(cors({
-  origin: [
-    'https://app-sheet-u8ao.vercel.app', // ton domaine Vercel
-    'http://localhost:3000' // pour le dev local
-  ],
-  credentials: true // si tu utilises les cookies/sessions
-}));
 // On importe les librairies nécessaires
 const express = require('express');
 const { google } = require('googleapis');
@@ -19,7 +11,14 @@ const app = express();
 
 // On autorise notre application React (qui tourne sur le port 3000 ou 3002) à parler à ce serveur
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:3002', 'http://10.8.0.14:3000']
+    origin: [
+        'http://localhost:3000',
+        'http://localhost:3002',
+        'http://10.8.0.14:3000',
+        'https://app-sheet-qdya.vercel.app', // Frontend Vercel
+        'https://app-sheet-u8ao.vercel.app'  // Autre déploiement Vercel (si besoin)
+    ],
+    credentials: true
 }));
 
 // On dit à Express de pouvoir comprendre le format JSON
